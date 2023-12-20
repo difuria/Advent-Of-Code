@@ -49,4 +49,4 @@ Your puzzle answer was: <!-- 53221. -->
 
 ## To Execute 
 
-Depends on the challange alter the `input_text` variable at the top of the file to the relevant file name.
+Depending on the desired challange to be run, alter the `input_text` variable at the top of the file to the relevant file name.
