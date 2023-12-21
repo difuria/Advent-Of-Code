@@ -1,6 +1,6 @@
 import os, sys
 
-input_text = "puzzle_schema_1.txt"
+input_text = "puzzle_schema_2.txt"
 
 class GearRatios:
     def __init__(self, engine_schematic) -> None:
@@ -8,7 +8,14 @@ class GearRatios:
 
         self.valid_numbers = []
         self.invalid_numbers = []
-    
+
+        self.total = 0
+
+    def reset(self):
+        self.valid_numbers = []
+        self.invalid_numbers = []
+        self.total = 0
+
     def search_schematic(self):
         current_integer = {}
         for line_index, line in enumerate(self.engine_schematic):
@@ -36,6 +43,9 @@ class GearRatios:
             current_integer = {}
     
     def search_valid_integer(self, current_integer):
+        # Solution to part 1
+        self.reset()
+
         y_start = current_integer["y"]
         if current_integer["y"] > 0:
             y_start -= 1
@@ -66,8 +76,56 @@ class GearRatios:
     
     def sum_valid(self):
         return sum(self.valid_numbers)
-        
+    
+    def find_gears(self):
+        # Solution to part 2
+        self.reset()
 
+        for y, line in enumerate(self.engine_schematic):
+            for x, character in enumerate(line):
+                if character == "*":
+                    self.__find_surounding_values(y, x)
+
+        return self.total    
+
+    def __find_surounding_values(self, y, x):
+        numbers = []
+        seen = set() # We need to keep track of the numbers we've found in case they show up in multiple places
+        for i in range(y-1, y+2):
+            if i < 0 or i > len(self.engine_schematic):
+                continue
+            for j in range(x-1, x+2):
+                if j < 0 or j > len(self.engine_schematic[i]) or (y==i and x==j):
+                    continue
+
+                if self.engine_schematic[i][j].isdigit() and (i, j) not in seen:
+
+                    x_index = j
+                    current_value = ""
+                    while x_index >= 0:
+                        if self.engine_schematic[i][x_index].isdigit():
+                            current_value = self.engine_schematic[i][x_index] + current_value
+                            seen.add((i, x_index))
+                        else:
+                            break
+
+                        x_index -= 1
+                    
+                    x_index = j + 1
+                    while x_index < len(self.engine_schematic[i]):
+                        if self.engine_schematic[i][x_index].isdigit():
+                            current_value += self.engine_schematic[i][x_index]
+                            seen.add((i, x_index))
+                        else:
+                            break
+
+                        x_index += 1
+                    
+                    numbers.append(int(current_value))
+        
+        if len(numbers) == 2:
+            self.total += numbers[0] * numbers[1]
+                    
 if __name__ == "__main__":
     path = os.path.dirname(__file__)
     file = os.path.join(path, input_text)
@@ -80,5 +138,12 @@ if __name__ == "__main__":
         engine_schematic = f.read()
 
     gear_ratios = GearRatios(engine_schematic)
-    gear_ratios.search_schematic()
-    print(gear_ratios.sum_valid())
+
+    if sys.argv[1] == "1":
+        gear_ratios.search_schematic()
+        print(gear_ratios.sum_valid())
+    else:
+        print(gear_ratios.find_gears())
+    
+    
+    
