@@ -7,7 +7,6 @@ class Trebuchet:
         self.calibration_document = calibration_document.strip()
         self.calibration_values = []
 
-        
         self.digits_to_value = {
             "one": "1",
             "two": "2",
