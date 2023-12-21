@@ -61,3 +61,13 @@ Consider the same engine schematic again:
 In this schematic, there are two gears. The first is in the top left; it has part numbers `467` and `35`, so its gear ratio is 16345. The second gear is in the lower right; its gear ratio is 451490. (The * adjacent to `617` is not a gear because it is only adjacent to one part number.) Adding up all of the gear ratios produces `467835`.
 
 Your puzzle answer was <!-- 84907174 -->.
+
+## To Execute 
+
+Depending on the desired challange to be run, alter the `input_text` variable at the top of the file to the relevant file name.
+
+Then to choose the first or second task append 1 or 2 as an argument to the script
+
+e.g.
+
+    python ./main.py 1
