@@ -15,10 +15,8 @@ class ScratchCards:
             potential_winning_numbers = potential_winning_numbers.strip().replace(" ", "|")
 
             winning_numbers = []
-            for drawn_number in drawn_numbers.strip().split(" "):
-                if drawn_number.strip() == "":
-                    continue
-                elif re.search(r"^(" + potential_winning_numbers + r")$", drawn_number):
+            for drawn_number in drawn_numbers.strip().split():
+                if re.search(r"^(" + potential_winning_numbers + r")$", drawn_number):
                     winning_numbers.append(int(drawn_number))
 
             if winning_numbers:
@@ -34,10 +32,8 @@ class ScratchCards:
             potential_winning_numbers = potential_winning_numbers.strip().replace(" ", "|")
 
             winning_numbers = []
-            for drawn_number in drawn_numbers.strip().split(" "):
-                if drawn_number.strip() == "":
-                    continue
-                elif re.search(r"^(" + potential_winning_numbers + r")$", drawn_number):
+            for drawn_number in drawn_numbers.strip().split():
+                if re.search(r"^(" + potential_winning_numbers + r")$", drawn_number):
                     winning_numbers.append(int(drawn_number))
 
             if winning_numbers:
