@@ -34,9 +34,9 @@ class Games:
     
     def sum_valid_games(self):
         return sum(self.valid_games)
-    
 
     def find_minimum_number(self, query):
+        # Task 2 Solution
         set_sum = 0
         for game in self.games:
             minimums = 1
