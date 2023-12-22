@@ -18,7 +18,7 @@ class Boat:
     def number_of_record_beaters(self):
         for race in range(1, len(self.races[0])):
             print(self.races[0][race])
-
+            
 if __name__ == "__main__":
     path = os.path.dirname(__file__)
     file = os.path.join(path, input_text)
