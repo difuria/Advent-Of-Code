@@ -8,6 +8,12 @@ To view the answers in the `README`s view the raw file, as the answers are hidde
 
 Each challange should have it's only individual readme. With each challange being placed in a `./Challanges/<Year>/Day <day>` folder.
 
+# Set up Of venv
+
+```sh
+python -m venv .
+```
+
 ## Setup
 
 Activate your shell
@@ -34,10 +40,4 @@ Include any updates to the libraries made
 
 ```sh
 pip freeze > requirements.txt
-```
-
-# Set up Of venv
-
-```sh
-python -m venv .
 ```
