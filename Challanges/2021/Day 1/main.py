@@ -40,7 +40,6 @@ if __name__ == "__main__":
         print(f"Invalid file supplied of {input_text}")
         sys.exit(1)
 
-    print(file)
     with open(file, "r") as f:
         report = f.read()
 
