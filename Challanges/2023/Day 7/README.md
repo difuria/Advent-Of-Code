@@ -66,11 +66,11 @@ To balance this, `J` **cards are now the weakest** individual cards, weaker even
 
 Now, the above example goes very differently:
 
-  32T3K 765
-  T55J5 684
-  KK677 28
-  KTJJT 220
-  QQQJA 483
+    32T3K 765
+    T55J5 684
+    KK677 28
+    KTJJT 220
+    QQQJA 483
 
   - `32T3K` is still the only **one pair**; it doesn't contain any jokers, so its strength doesn't increase.
   - `KK677` is now the only **two pair**, making it the second-weakest hand.
