@@ -9,7 +9,6 @@ class CamelCards:
 
         # Used for comparison
         self.card_value = {}
-
         self.hand_value = {
             "5 of a Kind": 6,
             "4 of a Kind": 5,
@@ -19,6 +18,13 @@ class CamelCards:
             "Pair": 1,
             "High Card": 0
         }
+        self.task = 1
+
+    def set_task(self, task):
+        if task in [1, 2]:
+            self.task = task
+        else:
+            raise ValueError("Invalid task value")
 
     def __reset_hands(self):
         for hand in self.hands_input.strip().split("\n"):
@@ -37,13 +43,13 @@ class CamelCards:
         self.cards = "J23456789TQKA"
         self.__populate_values()
 
-    def evaluate_hands(self, task = 1):
+    def evaluate_hands(self):
         self.__reset_hands()
         for hand in self.hands:
             jokers = 0
             highest_card = ""
             for card in hand:
-                if task == 2 and card == "J":
+                if self.task == 2 and card == "J":
                     jokers += 1
                     continue
 
@@ -56,7 +62,7 @@ class CamelCards:
                 elif self.hands[hand]["Cards"][card] > self.hands[hand]["Cards"][highest_card]:
                     highest_card = card
 
-            if task == 2:
+            if self.task == 2:
                 if highest_card == "":
                     self.hands[hand]["Cards"]["A"] = jokers
                 else:
@@ -100,8 +106,8 @@ class CamelCards:
         
         return False
 
-    def total_winnings(self, task = 1):
-        if task == 1:
+    def total_winnings(self):
+        if self.task == 1:
             self.__task_1_values()
         else:
             self.__task_2_values()
@@ -127,7 +133,7 @@ class CamelCards:
         for rank_index, hand in enumerate(rankings):
             winnings += (rank_index + 1) * self.hands[hand]["Bid"]
         
-        print(f"Total winnings for task {task} was {winnings}.")
+        print(f"Total winnings for task {self.task} was {winnings}.")
 
 if __name__ == "__main__":
     path = os.path.dirname(__file__)
@@ -144,5 +150,6 @@ if __name__ == "__main__":
     camel_cards.evaluate_hands()
     camel_cards.total_winnings()
 
-    camel_cards.evaluate_hands(2)
-    camel_cards.total_winnings(2)
+    camel_cards.set_task(2)
+    camel_cards.evaluate_hands()
+    camel_cards.total_winnings()
