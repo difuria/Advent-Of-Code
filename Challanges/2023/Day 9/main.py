@@ -1,6 +1,6 @@
 import os, sys
 
-input_text_task_1 = "puzzle_inputs_1.txt"
+input_text = "puzzle_inputs_1.txt"
 
 class MirageMaintenance:
     def __init__(self, datasets) -> None:
@@ -75,6 +75,6 @@ def get_file(path, file):
 if __name__ == "__main__":
     path = os.path.dirname(__file__)
 
-    mirage_maintenance = MirageMaintenance(get_file(path, input_text_task_1))
+    mirage_maintenance = MirageMaintenance(get_file(path, input_text))
     mirage_maintenance.find_next_step()
     mirage_maintenance.find_pre_step()
