@@ -1,6 +1,5 @@
 import os, sys
 
-input_text = "test_pipes_1.txt"
 input_text = "puzzle_pipes_1.txt"
 
 class PipeMaze:
@@ -9,9 +8,7 @@ class PipeMaze:
         self.maze = []
         self.maze_distances = []
 
-        # Positions you can move if you're on the pipe
-        # x = Rows, y = Columns
-
+        # y = Columns, x = Rows
         self.pipes = {
             "-": [[0, 1], [0, -1]],
             "|": [[1, 0], [-1, 0]],
@@ -23,12 +20,12 @@ class PipeMaze:
 
         self.invalid_movements = {
             "x": {
-                1: ["|", "F", "L"],
-                -1: ["|", "7", "J"]
+                1: { "|", "F", "L" },
+                -1: { "|", "7", "J" }
             },
             "y": {
-                1: ["-", "F", "7"],
-                -1: ["L", "-", "J"]
+                1: { "-", "F", "7" },
+                -1: { "L", "-", "J" }
             },
         }
     
@@ -62,10 +59,12 @@ class PipeMaze:
 
     def __check_valid_for_given_pipe(self, current_position, y, x, current_distance, impassable, pipes):
         # Now check for incompatiable pipes
+        distance = current_distance
         if not self.maze[y][x] in impassable:
-            self.maze_distances[y][x] = current_distance + 1
+            distance += 1
+            self.maze_distances[y][x] = distance
             pipes.append([[y, x], current_position])
-        return pipes
+        return pipes, distance
 
     def print_maze_distances(self):
         for line in self.maze_distances:
@@ -84,13 +83,13 @@ class PipeMaze:
             return
 
         pipes = []
+        max_distance = 0
         self.maze_distances[self.start[0]][self.start[1]] = 0
         for i, j in [[0,1], [1,0], [-1,0], [0, -1]]:
             x = i + self.start[1]
             y = j + self.start[0]
 
-            if (y < 0 or y >= len(self.maze)) or \
-                (x < 0 or x >= len(self.maze[y])):
+            if y < 0 or y >= len(self.maze) or x < 0 or x >= len(self.maze[y]):
                 continue
 
             # Check we're not moving into an invalid pipe
@@ -103,6 +102,7 @@ class PipeMaze:
             if self.maze[y][x] != ".":
                 pipes.append([[y, x], self.start])
                 self.maze_distances[y][x] = 1
+                max_distance = 1
 
         while pipes:
             current_position, previous_position = pipes.pop(0)
@@ -117,20 +117,15 @@ class PipeMaze:
                     potential_x = current_x + x_movement
                     potential_y = current_y + y_movement
 
-                    invalid_movment = []
+                    impassable = []
                     if x_movement in self.invalid_movements["x"]:
-                        invalid_movment = self.invalid_movements["x"][x_movement]
+                        impassable = self.invalid_movements["x"][x_movement]
                     elif y_movement in self.invalid_movements["y"]:
-                        invalid_movment = self.invalid_movements["y"][y_movement]
+                        impassable = self.invalid_movements["y"][y_movement]
 
                     if self.__check_potentially_valid_pipe(previous_position, potential_y, potential_x):
-                        pipes = self.__check_valid_for_given_pipe(current_position, potential_y, potential_x, current_distance, invalid_movment, pipes)
-
-        max_distance = 0
-        for line in self.maze_distances:
-            for column in line:
-                if type(column) == int:
-                    max_distance = max(max_distance, column)
+                        pipes, distance = self.__check_valid_for_given_pipe(current_position, potential_y, potential_x, current_distance, impassable, pipes)
+                        max_distance = max(max_distance, distance)
         
         print(f"Max distance found was {max_distance}")
         return max_distance
@@ -152,7 +147,7 @@ if __name__ == "__main__":
 
     pipe_maze = PipeMaze()
 
-    for i in range(1, 5):
+    for i in range(1, 8):
         pipe_maze.load_maze(get_file(path, f"test_pipes_{i}.txt"))
         pipe_maze.follow_pipes()
     
