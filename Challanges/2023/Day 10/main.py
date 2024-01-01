@@ -1,6 +1,6 @@
 import os, sys
 
-input_text = "test_pipes_1 copy.txt"
+input_text = "test_pipes_1.txt"
 input_text = "puzzle_pipes_1.txt"
 
 class PipeMaze:
@@ -11,6 +11,26 @@ class PipeMaze:
 
         # Positions you can move if you're on the pipe
         # x = Rows, y = Columns
+
+        self.pipes = {
+            "-": [[0, 1], [0, -1]],
+            "|": [[1, 0], [-1, 0]],
+            "F": [[1, 0], [0, 1]],
+            "L": [[0, 1], [-1, 0]],
+            "7": [[1, 0], [0, -1]],
+            "J": [[-1, 0], [0, -1]],
+        }
+
+        self.invalid_movements = {
+            "x": {
+                1: ["|", "F", "L"],
+                -1: ["|", "7", "J"]
+            },
+            "y": {
+                1: ["-", "F", "7"],
+                -1: ["L", "-", "J"]
+            },
+        }
     
     def load_maze(self, maze):
         self.maze = [list(row.strip()) for row in maze.strip().split("\n")]
@@ -44,9 +64,6 @@ class PipeMaze:
         # Now check for incompatiable pipes
         if not self.maze[y][x] in impassable:
             self.maze_distances[y][x] = current_distance + 1
-            if current_distance + 1 == 6852:
-                print(f"Current position {current_position} was {self.maze[current_position[0]][current_position[1]]}")
-                print(f"Now at {self.maze[y][x]} Co: {y} {x}")
             pipes.append([[y, x], current_position])
         return pipes
 
@@ -66,11 +83,6 @@ class PipeMaze:
         if not self.start:
             return
 
-        invalid_x_increase_positions = ["|", "F", "L"]
-        invalid_x_decrease_positions = ["|", "7", "J"]
-        invalid_y_increase_positions = ["-", "F", "7"]
-        invalid_y_decrease_positions = ["L", "-", "J"]
-
         pipes = []
         self.maze_distances[self.start[0]][self.start[1]] = 0
         for i, j in [[0,1], [1,0], [-1,0], [0, -1]]:
@@ -82,10 +94,10 @@ class PipeMaze:
                 continue
 
             # Check we're not moving into an invalid pipe
-            if (i == 1 and self.maze[y][x] in invalid_x_increase_positions) or \
-               (i == -1 and self.maze[y][x] in invalid_x_decrease_positions) or \
-               (j == 1 and self.maze[y][x] in invalid_y_increase_positions) or \
-               (j == -1 and self.maze[y][x] in invalid_y_decrease_positions):
+            if (i == 1 and self.maze[y][x] in self.invalid_movements["x"][1]) or \
+               (i == -1 and self.maze[y][x] in self.invalid_movements["x"][-1]) or \
+               (j == 1 and self.maze[y][x] in self.invalid_movements["y"][1]) or \
+               (j == -1 and self.maze[y][x] in self.invalid_movements["y"][-1]):
                 continue
 
             if self.maze[y][x] != ".":
@@ -99,62 +111,20 @@ class PipeMaze:
             current_distance = self.maze_distances[current_y][current_x]
             current_pipe = self.maze[current_y][current_x]
 
-            if current_pipe == "-":
-                potential_x = current_x + 1            
-                if self.__check_potentially_valid_pipe(previous_position, current_y, potential_x):
-                    pipes = self.__check_valid_for_given_pipe(current_position, current_y, potential_x, current_distance, invalid_x_increase_positions, pipes)
+            if current_pipe in self.pipes:
+                for movement in self.pipes[current_pipe]:
+                    y_movement, x_movement = movement
+                    potential_x = current_x + x_movement
+                    potential_y = current_y + y_movement
 
-                potential_x = current_x - 1
-                if self.__check_potentially_valid_pipe(previous_position, current_y, potential_x):
-                    pipes = self.__check_valid_for_given_pipe(current_position, current_y, potential_x, current_distance, invalid_x_decrease_positions, pipes)
+                    invalid_movment = []
+                    if x_movement in self.invalid_movements["x"]:
+                        invalid_movment = self.invalid_movements["x"][x_movement]
+                    elif y_movement in self.invalid_movements["y"]:
+                        invalid_movment = self.invalid_movements["y"][y_movement]
 
-            elif current_pipe == "|":
-                potential_y = current_y + 1
-                if self.__check_potentially_valid_pipe(previous_position, potential_y, current_x):
-                    pipes = self.__check_valid_for_given_pipe(current_position, potential_y, current_x, current_distance, invalid_y_increase_positions, pipes)
-
-                potential_y = current_y - 1
-                if self.__check_potentially_valid_pipe(previous_position, potential_y, current_x):
-                    pipes = self.__check_valid_for_given_pipe(current_position, potential_y, current_x, current_distance, invalid_y_decrease_positions, pipes)
-
-            elif current_pipe == "F":
-                potential_x = current_x + 1
-                if self.__check_potentially_valid_pipe(previous_position, current_y, potential_x):
-                    pipes = self.__check_valid_for_given_pipe(current_position, current_y, potential_x, current_distance, invalid_x_increase_positions, pipes)
-
-                potential_y = current_y + 1
-                if self.__check_potentially_valid_pipe(previous_position, potential_y, current_x):
-                    pipes = self.__check_valid_for_given_pipe(current_position, potential_y, current_x, current_distance, invalid_y_increase_positions, pipes)
-
-            elif current_pipe == "L":
-                potential_x = current_x + 1
-                if self.__check_potentially_valid_pipe(previous_position, current_y, potential_x):
-                    pipes = self.__check_valid_for_given_pipe(current_position, current_y, potential_x, current_distance, invalid_x_increase_positions, pipes)
-
-                potential_y = current_y - 1
-                if self.__check_potentially_valid_pipe(previous_position, potential_y, current_x):
-                    pipes = self.__check_valid_for_given_pipe(current_position, potential_y, current_x, current_distance, invalid_y_decrease_positions, pipes)
-
-            elif current_pipe == "7":
-                potential_x = current_x - 1
-                if self.__check_potentially_valid_pipe(previous_position, current_y, potential_x):
-                    pipes = self.__check_valid_for_given_pipe(current_position, current_y, potential_x, current_distance, invalid_x_decrease_positions, pipes)
-
-                potential_y = current_y + 1
-                if self.__check_potentially_valid_pipe(previous_position, potential_y, current_x):
-                    pipes = self.__check_valid_for_given_pipe(current_position, potential_y, current_x, current_distance, invalid_y_increase_positions, pipes)
-
-            elif current_pipe == "J":
-                potential_x = current_x - 1
-                if self.__check_potentially_valid_pipe(previous_position, current_y, potential_x):
-                    pipes = self.__check_valid_for_given_pipe(current_position, current_y, potential_x, current_distance, invalid_x_decrease_positions, pipes)
-
-                potential_y = current_y - 1
-                if self.__check_potentially_valid_pipe(previous_position, potential_y, current_x):
-                    pipes = self.__check_valid_for_given_pipe(current_position, potential_y, current_x, current_distance, invalid_y_decrease_positions, pipes)
-
-        # self.print_maze()
-        # self.print_maze_distances()
+                    if self.__check_potentially_valid_pipe(previous_position, potential_y, potential_x):
+                        pipes = self.__check_valid_for_given_pipe(current_position, potential_y, potential_x, current_distance, invalid_movment, pipes)
 
         max_distance = 0
         for line in self.maze_distances:
