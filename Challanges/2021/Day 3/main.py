@@ -32,58 +32,39 @@ class BinaryDiagnostic():
         print(f"Epsilon rate is {epsilon_binary} or {epsilon_rate} in decimal.")
         print(f"Power consumption if {power_consumption}")
     
+    def __get_numbers(self, value):
+        numbers = self.report[:]
+        column = 0
+        
+        # Other values being 1 or 0 depending what was input
+        other_value = str(abs(int(value)-1))
+
+        while numbers:
+            start_with = { "0": [], "1": [] }
+            for number in numbers:
+                start_with[number[column]].append(number)
+            
+            if len(start_with[value]) > len(start_with[other_value]):
+                numbers = start_with["1"][:]
+            elif len(start_with[value]) < len(start_with[other_value]):
+                numbers = start_with["0"][:]
+            else:
+                numbers = [number for number in numbers if number[column] == value]
+
+            if len(numbers) == 1:
+                return numbers[0]
+
+            column += 1
+
     def verify_life_support_rating(self):
-        oxygen_generator_numbers = self.report[:]
-        column = 0
-        while oxygen_generator_numbers:
-            start_with_one = []
-            start_with_zero = []
-            for number in oxygen_generator_numbers:
-                if number[column] == "1":
-                    start_with_one.append(number)
-                else:
-                    start_with_zero.append(number)
-            
-            if len(start_with_one) > len(start_with_zero):
-                oxygen_generator_numbers = start_with_one[:]
-            elif len(start_with_one) < len(start_with_zero):
-                oxygen_generator_numbers = start_with_zero[:]
-            else:
-                oxygen_generator_numbers = [number for number in oxygen_generator_numbers if number[column] == "1"]
+        oxygen_generator_numbers = self.__get_numbers("1")
+        co2_scrubber_numbers = self.__get_numbers("0")   
 
-            if len(oxygen_generator_numbers) == 1:
-                break
-
-            column += 1       
-
-        co2_scrubber_numbers = self.report[:]
-        column = 0
-        while co2_scrubber_numbers:
-            start_with_one = []
-            start_with_zero = []
-            for number in co2_scrubber_numbers:
-                if number[column] == "1":
-                    start_with_one.append(number)
-                else:
-                    start_with_zero.append(number)
-            
-            if len(start_with_one) < len(start_with_zero):
-                co2_scrubber_numbers = start_with_one[:]
-            elif len(start_with_one) > len(start_with_zero):
-                co2_scrubber_numbers = start_with_zero[:]
-            else:
-                co2_scrubber_numbers = [number for number in co2_scrubber_numbers if number[column] == "0"]
-
-            if len(co2_scrubber_numbers) == 1:
-                break
-
-            column += 1 
-
-        oxygen_generator_rating = int(oxygen_generator_numbers[0], 2)
-        co2_scrubber_rating = int(co2_scrubber_numbers[0], 2)
+        oxygen_generator_rating = int(oxygen_generator_numbers, 2)
+        co2_scrubber_rating = int(co2_scrubber_numbers, 2)
         life_support_rating = oxygen_generator_rating * co2_scrubber_rating
-        print(f"Oxygen generator rating is {oxygen_generator_numbers[0]}, or in decimal {oxygen_generator_rating}")     
-        print(f"Co2 Scrubber rating is {co2_scrubber_numbers[0]}, or in decimal {co2_scrubber_rating}")
+        print(f"Oxygen generator rating is {oxygen_generator_numbers}, or in decimal {oxygen_generator_rating}")     
+        print(f"Co2 Scrubber rating is {co2_scrubber_numbers}, or in decimal {co2_scrubber_rating}")
         print(f"Life support rating is {life_support_rating}")
 
 def get_file(path, file):
