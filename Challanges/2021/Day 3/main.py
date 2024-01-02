@@ -84,7 +84,7 @@ class BinaryDiagnostic():
         life_support_rating = oxygen_generator_rating * co2_scrubber_rating
         print(f"Oxygen generator rating is {oxygen_generator_numbers[0]}, or in decimal {oxygen_generator_rating}")     
         print(f"Co2 Scrubber rating is {co2_scrubber_numbers[0]}, or in decimal {co2_scrubber_rating}")
-        print(f"Lif support rating is {life_support_rating}")
+        print(f"Life support rating is {life_support_rating}")
 
 def get_file(path, file):
     file = os.path.join(path, f"Task Inputs", file)
