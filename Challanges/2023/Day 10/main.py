@@ -10,6 +10,7 @@ class PipeMaze:
 
         # y = Columns, x = Rows
         self.pipes = {
+            "S": [[1, 0], [0, 1], [-1, 0], [0, -1]],
             "-": [[0, 1], [0, -1]],
             "|": [[1, 0], [-1, 0]],
             "F": [[1, 0], [0, 1]],
@@ -58,7 +59,7 @@ class PipeMaze:
                 )
 
     def __check_valid_for_given_pipe(self, current_position, y, x, current_distance, impassable, pipes):
-        # Now check for incompatiable pipes
+        # Now check for incompatible pipes
         distance = current_distance
         if not self.maze[y][x] in impassable:
             distance += 1
@@ -82,27 +83,9 @@ class PipeMaze:
         if not self.start:
             return
 
-        pipes = []
+        pipes = [[self.start, self.start]]
         max_distance = 0
         self.maze_distances[self.start[0]][self.start[1]] = 0
-        for i, j in [[0,1], [1,0], [-1,0], [0, -1]]:
-            x = i + self.start[1]
-            y = j + self.start[0]
-
-            if y < 0 or y >= len(self.maze) or x < 0 or x >= len(self.maze[y]):
-                continue
-
-            # Check we're not moving into an invalid pipe
-            if (i == 1 and self.maze[y][x] in self.invalid_movements["x"][1]) or \
-               (i == -1 and self.maze[y][x] in self.invalid_movements["x"][-1]) or \
-               (j == 1 and self.maze[y][x] in self.invalid_movements["y"][1]) or \
-               (j == -1 and self.maze[y][x] in self.invalid_movements["y"][-1]):
-                continue
-
-            if self.maze[y][x] != ".":
-                pipes.append([[y, x], self.start])
-                self.maze_distances[y][x] = 1
-                max_distance = 1
 
         while pipes:
             current_position, previous_position = pipes.pop(0)
