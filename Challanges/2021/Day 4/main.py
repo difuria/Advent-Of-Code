@@ -4,6 +4,9 @@ input_text = "puzzle_game_1.txt"
 
 class GiantSquid():
     def __init__(self):
+        self.__reset_values()
+
+    def __reset_values(self):
         self.drawn_numbers = []
         self.boards = []
         self.marked_boards = []
@@ -13,12 +16,12 @@ class GiantSquid():
         self.game_cards = {}
 
         self.boards = []
+        self.completed_boards = set()
         self.board_width = 0
         self.board_height = 0
 
     def load_games(self, game_input):
-        self.value_locations = {}
-        self.game_cards = {}
+        self.__reset_values()
 
         split_input = game_input.strip().split("\n\n")
         self.drawn_numbers = split_input[0].split(",")
@@ -56,9 +59,8 @@ class GiantSquid():
                     unticked_multiple += int(x)
         
         return unticked_multiple
-
     
-    def play_game(self):
+    def play_game(self, winning_position=1):
         for index, drawn_number in enumerate(self.drawn_numbers):
             if drawn_number in self.value_locations:
                 for board, position in self.value_locations[drawn_number].items():
@@ -68,9 +70,15 @@ class GiantSquid():
                     self.game_cards[board]["y"][y].append(drawn_number)
 
                     if len(self.game_cards[board]["x"][x]) == self.board_width or len(self.game_cards[board]["y"][y]) == self.board_height:
-                        print("Completed row")
-                        print(f"Final Score {self.__find_unticked(board, index) * int(drawn_number)}")
-                        return
+                        self.completed_boards.add(board)
+                        # print(self.completed_boards, winning_position)
+                        # input()
+                        if len(self.completed_boards) == winning_position:
+                            print(f"Final Score {self.__find_unticked(board, index) * int(drawn_number)}")
+                            return
+                        elif len(self.completed_boards) == len(self.boards) and winning_position == -1:
+                            print(f"Final Score {self.__find_unticked(board, index) * int(drawn_number)}")
+                            return
 
 def get_file(path, file):
     file = os.path.join(path, f"Task Inputs", file)
@@ -90,3 +98,6 @@ if __name__ == "__main__":
     giant_quid = GiantSquid()
     giant_quid.load_games(get_file(path, input_text))
     giant_quid.play_game()
+
+    giant_quid.load_games(get_file(path, input_text))
+    giant_quid.play_game(-1)

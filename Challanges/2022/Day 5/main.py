@@ -1,4 +1,4 @@
-import os, pprint, sys
+import os, sys
 
 input_text = "puzzle_stacks_1.txt"
 
