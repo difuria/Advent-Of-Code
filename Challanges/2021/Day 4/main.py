@@ -71,8 +71,7 @@ class GiantSquid():
 
                     if len(self.game_cards[board]["x"][x]) == self.board_width or len(self.game_cards[board]["y"][y]) == self.board_height:
                         self.completed_boards.add(board)
-                        # print(self.completed_boards, winning_position)
-                        # input()
+
                         if len(self.completed_boards) == winning_position:
                             print(f"Final Score {self.__find_unticked(board, index) * int(drawn_number)}")
                             return
