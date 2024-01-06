@@ -37,11 +37,11 @@ class CrossedWires:
                 self.positions["max"]["y"] = max(current_position[1], self.positions["max"]["y"])
 
     
-    def draw_map(self):
+    def draw_map(self, print_map = False):
         self.map = []
         self.both_wires_map = []
         # + 2 is just for spacing to make it visible
-        for y in range(0, self.positions["max"]["y"] - self.positions["min"]["y"] + 1):
+        for y in range(0, self.positions["max"]["y"] - self.positions["min"]["y"] + 2):
             self.map.append([" "] * (self.positions["max"]["x"] - self.positions["min"]["x"] + 2))
             self.both_wires_map.append([" "] * (self.positions["max"]["x"] - self.positions["min"]["x"] + 2))
 
@@ -98,17 +98,16 @@ class CrossedWires:
                             self.both_wires_map[y][x] = "X"
                             crossing_points.append([x, y])
 
-        print(starting_position)
-        self.print_map(self.map)
-        self.print_map(self.both_wires_map)
+        if print_map:
+            self.print_map(self.map)
+            self.print_map(self.both_wires_map)
 
-        print(crossing_points)
         smallest_manhattan_distance = float('inf')
         for x, y in crossing_points:
             manhattan_distance = abs(x - starting_position[0]) + abs(y - starting_position[1])
             smallest_manhattan_distance = min(smallest_manhattan_distance, manhattan_distance)
         
-        print(f"Manhattan Distance Was {manhattan_distance}")
+        print(f"Manhattan Distance Was {smallest_manhattan_distance}")
 
     def print_map(self, map):
         for line in map:
@@ -131,5 +130,9 @@ if __name__ == "__main__":
     path = os.path.dirname(__file__)
 
     crossed_wires = CrossedWires(get_file(path, "test_wires_1.txt"))
+    crossed_wires.find_starting_position()
+    crossed_wires.draw_map(True)
+
+    crossed_wires = CrossedWires(get_file(path, "puzzle_wires_1.txt"))
     crossed_wires.find_starting_position()
     crossed_wires.draw_map()
