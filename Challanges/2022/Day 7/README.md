@@ -101,3 +101,7 @@ To achieve this, you have the following options:
 Directories `e` and `a` are both too small; deleting them would not free up enough space. However, directories `d` and `/` are both big enough! Between these, choose the **smallest**: `d`, increasing unused space by **`24933642`**.
 
 Find the smallest directory that, if deleted, would free up enough space on the filesystem to run the update. **What is the total size of that directory?**
+
+Your puzzle answer was `10096985`.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
