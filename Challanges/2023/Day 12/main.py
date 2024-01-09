@@ -6,7 +6,7 @@ class HotSprings:
     def __init__(self, records):
         self.records = [r.split() for r in records.strip().split("\n")]
 
-    def create_configurations(self, conditions = []):
+    def create_configurations(self, conditions, regex):
         full_conditions = []
         while conditions:
             condition = conditions.pop(0)
@@ -18,36 +18,44 @@ class HotSprings:
                     condition_2 = condition[:]
                     condition_2[i] = "#"
 
-                    conditions.append(condition_1)
-                    conditions.append(condition_2)
+                    # We might as well not add if this isn't going to go any further
+                    if re.search(regex, "".join(condition_1)):
+                        conditions.append(condition_1)
+                    if re.search(regex, "".join(condition_2)):
+                        conditions.append(condition_2)
 
                     wild_card_found = True
                     break
             if not wild_card_found:
-                full_conditions.append("".join(condition))
-        
+                cond = "".join(condition)
+                if re.search(regex, cond):
+                    full_conditions.append(cond)
+
         return full_conditions
 
-    def determine_valid_configuration(self):
+    def determine_valid_configuration(self, repeat = 1):
+        # TODO fix - For task 2 it takes ages to run
         total_count = 0
         for r in self.records:
+            
             condition, record = r
             record = record.split(",")
-            conditions = self.create_configurations([list(condition)])
 
-            regex = [r"^\.{0,}"]
+            regex = []
             for r in record:
-                regex.append(f"#{{{r}}}")
-                regex.append(r"\.{1,}")
-            
-            regex = "".join(regex[:-1]) + r"\.{0,}$"
+                regex.append(f"(#|\?){{{r}}}")
+                regex.append(r"(\.|\?){1,}")
 
-            valid_count = 0
-            for c in conditions:
-                if re.search(regex, c):
-                    valid_count += 1
+            regex = r"^(\.|\?){0,}" + "".join((regex * repeat)[:-1]) + r"(\.|\?){0,}$"
 
-            total_count += valid_count
+            cond = ""
+            for i in range(repeat):
+                cond += condition + "?" 
+            print(f"Searching:{cond[:-1]}\n{regex}")
+            conditions = self.create_configurations([list(cond[:-1])], regex)
+
+            print(f"Valid Conditions: {len(conditions)}")
+            total_count += len(conditions)
 
         print(f"Total count is {total_count}")
 
