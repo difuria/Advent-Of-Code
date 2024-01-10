@@ -32,7 +32,6 @@ class TobogganTrajectory:
         print(f"{trees_encountered} trees were encountered.")
         return trees_encountered
 
-
 def get_file(path, file):
     file = os.path.join(path, f"Task Inputs", file)
 

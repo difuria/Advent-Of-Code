@@ -30,7 +30,6 @@ class CrossedWires:
                 elif direction[0] == "R":
                     current_position[0] += int(direction[1:])
 
-                
                 self.positions["min"]["x"] = min(current_position[0], self.positions["min"]["x"])
                 self.positions["min"]["y"] = min(current_position[1], self.positions["min"]["y"])
                 self.positions["max"]["x"] = max(current_position[0], self.positions["max"]["x"])
@@ -138,10 +137,10 @@ class CrossedWires:
                         distance_to_crossing_positions[x][y][i] = distance
 
         shortest_distance = float('inf')
-        for x, x_value in distance_to_crossing_positions.items():
-            for y, y_value in x_value.items():
+        for x_value in distance_to_crossing_positions.values():
+            for y_value in x_value.values():
                 total_distance = 0
-                for wire, steps in y_value.items():
+                for steps in y_value.values():
                     total_distance += steps
                 
                 shortest_distance = min(shortest_distance, total_distance)
