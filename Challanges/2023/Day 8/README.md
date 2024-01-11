@@ -32,7 +32,7 @@ Of course, you might not find `ZZZ` right away. If you run out of left/right ins
 
 Starting at `AAA`, follow the left/right instructions. **How many steps are required to reach `ZZZ`**?
 
-Your puzzle answer was <!-- 21409 -->.
+Your puzzle answer was 21409.
 
 The first half of this puzzle is complete! It provides one gold star: *
 
@@ -71,4 +71,4 @@ So, in this example, you end up entirely on nodes that end in `Z` after **`6`** 
 
 Simultaneously start on every node that ends with `A`. **How many steps does it take before you're only on nodes that end with** **`Z`?**
 
-Your puzzle answer was <!-- 21165830176709 -->.
+Your puzzle answer was 21165830176709.

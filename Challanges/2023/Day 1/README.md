@@ -23,7 +23,7 @@ In this example, the calibration values of these four lines are `12`, `38`, `15`
 
 Consider your entire calibration document. **What is the sum of all of the calibration values?**
 
-Your puzzle answer was: <!-- 55834. -->
+Your puzzle answer was: 55834.
 
 The first half of this puzzle is complete! It provides one gold star: *
 
@@ -45,7 +45,7 @@ In this example, the calibration values are `29`, `83`, `13`, `24`, `42`, `14`, 
 
 **What is the sum of all of the calibration values?**
 
-Your puzzle answer was: <!-- 53221. -->
+Your puzzle answer was: 53221.
 
 ## To Execute 
 

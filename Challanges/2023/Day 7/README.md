@@ -54,7 +54,7 @@ Now, you can determine the total winnings of this set of hands by adding up the 
 
 Find the rank of every hand in your set. **What are the total winnings?**
 
-Your puzzle answer was <!-- 247961593 -->.
+Your puzzle answer was 247961593.
 
 ### --- Part Two ---
 
@@ -80,4 +80,4 @@ With the new joker rule, the total winnings in this example are **`5905`**.
 
 Using the new joker rule, find the rank of every hand in your set. **What are the new total winnings?**
 
-Your puzzle answer was <!-- 248750699 -->.
+Your puzzle answer was 248750699.
