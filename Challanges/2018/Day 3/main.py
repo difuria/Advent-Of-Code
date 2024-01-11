@@ -27,7 +27,7 @@ class SliceIt:
             info = claim.replace(":", "").replace("#", "").split()
             index = info[0]
             x_start, y_start = list(map(int, info[2].split(",")))
-            x_grid, y_grid = list(list(map(int, info[3].split("x"))))
+            x_grid, y_grid = list(map(int, info[3].split("x")))
 
             for y in range(y_start, y_start + y_grid):
                 for x in range(x_start, x_start + x_grid):
