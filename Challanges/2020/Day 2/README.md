@@ -20,7 +20,7 @@ In the above example, **`2`** passwords are valid. The middle password, `cdefg`,
 
 **How many passwords are valid** according to their policies?
 
-Your puzzle answer was 569.
+Your puzzle answer was `569`.
 
 The first half of this puzzle is complete! It provides one gold star: *
 
@@ -40,4 +40,4 @@ Given the same example list from above:
 
 **How many passwords are valid** according to the new interpretation of the policies?
 
-Your puzzle answer was 346.
+Your puzzle answer was `346`.

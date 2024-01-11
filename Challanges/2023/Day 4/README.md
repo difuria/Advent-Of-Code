@@ -35,7 +35,7 @@ So, in this example, the Elf's pile of scratchcards is worth `13` points.
 
 Take a seat in the large pile of colorful cards. **How many points are they worth in total?**
 
-Your puzzle answer was 28750.
+Your puzzle answer was `28750`.
 
 The first half of this puzzle is complete! It provides one gold star: *
 
@@ -70,7 +70,7 @@ Once all of the originals and copies have been processed, you end up with 1 inst
 
 Process all of the original and copied scratchcards until no more scratchcards are won. Including the original set of scratchcards, **how many total scratchcards do you end up with?**
 
-Your puzzle answer was 10212704.
+Your puzzle answer was `10212704`.
 
 ## To Execute 
 

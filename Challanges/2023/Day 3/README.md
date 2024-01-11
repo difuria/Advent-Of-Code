@@ -29,7 +29,7 @@ In this schematic, two numbers are **not** part numbers because they are not adj
 
 Of course, the actual engine schematic is much larger. **What is the sum of all of the part numbers in the engine schematic?**
 
-Your puzzle answer was 528799.
+Your puzzle answer was `528799`.
 
 The first half of this puzzle is complete! It provides one gold star: *
 
@@ -62,7 +62,7 @@ In this schematic, there are **two** gears. The first is in the top left; it has
 
 **What is the sum of all of the gear ratios in your engine schematic?**
 
-Your puzzle answer was 84907174.
+Your puzzle answer was `84907174`.
 
 ## To Execute 
 

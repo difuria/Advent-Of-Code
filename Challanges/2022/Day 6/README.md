@@ -31,7 +31,7 @@ Here are a few more examples:
 
 **How many characters need to be processed before the first start-of-packet marker is detected?**
 
-Your puzzle answer was 1794.
+Your puzzle answer was `1794`.
 
 ### --- Part Two ---
 
@@ -49,6 +49,6 @@ Here are the first positions of start-of-message markers for all of the above ex
 
 **How many characters need to be processed before the first start-of-message marker is detected?**
 
-Your puzzle answer was 2851.
+Your puzzle answer was `2851`.
 
 Both parts of this puzzle are complete! They provide two gold stars: **

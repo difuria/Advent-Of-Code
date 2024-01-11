@@ -44,7 +44,7 @@ To see how much margin of error you have, determine the **number of ways you can
 
 Determine the number of ways you could beat the record in each race. **What do you get if you multiply these numbers together?**
 
-Your puzzle answer was 293046.
+Your puzzle answer was `293046`.
 
 The first half of this puzzle is complete! It provides one gold star: *
 
@@ -66,4 +66,4 @@ Now, you have to figure out how many ways there are to win this single race. In 
 
 **How many ways can you beat the record in this one much longer race?**
 
-Your puzzle answer was 35150181.
+Your puzzle answer was `35150181`.

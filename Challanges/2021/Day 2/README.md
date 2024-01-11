@@ -32,7 +32,7 @@ After following these instructions, you would have a horizontal position of 15 a
 
 Calculate the horizontal position and depth you would have after following the planned course. **What do you get if you multiply your final horizontal position by your final depth?**
 
-Your puzzle answer was 1714680.
+Your puzzle answer was `1714680`.
 
 The first half of this puzzle is complete! It provides one gold star: *
 
@@ -63,4 +63,4 @@ After following these new instructions, you would have a horizontal position of 
 
 Using this new interpretation of the commands, calculate the horizontal position and depth you would have after following the planned course. **What do you get if you multiply your final horizontal position by your final depth?**
 
-Your puzzle answer was 1963088820.
+Your puzzle answer was `1963088820`.
