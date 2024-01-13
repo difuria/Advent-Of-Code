@@ -8,17 +8,20 @@ class HotSprings:
 
     def create_configurations(self, conditions, regex):
         full_conditions = []
+        starting_index = 0
         while conditions:
             condition = conditions.pop(0)
             wild_card_found = False
-            for i, character in enumerate(condition):
+            for i in range(starting_index, len(condition)):
+                character = condition[i]
                 if character == "?":
+                    starting_index = i
                     condition_1 = condition[:]
                     condition_1[i] = "."
                     condition_2 = condition[:]
                     condition_2[i] = "#"
 
-                    # We might as well not add if this isn't going to go any further
+                    # Don't add if this isn't going to go any further
                     if re.search(regex, "".join(condition_1)):
                         conditions.append(condition_1)
                     if re.search(regex, "".join(condition_2)):
@@ -26,6 +29,7 @@ class HotSprings:
 
                     wild_card_found = True
                     break
+
             if not wild_card_found:
                 cond = "".join(condition)
                 if re.search(regex, cond):
@@ -41,18 +45,14 @@ class HotSprings:
             condition, record = r
             record = record.split(",")
 
-            regex = []
-            for r in record:
-                regex.append(f"(#|\?){{{r}}}")
-                regex.append(r"(\.|\?){1,}")
+            regex = [f"(#|\?){{{r}}}" for r in record]
+            regex = r"^(\.|\?){0,}" + r"(\.|\?){1,}".join((regex * repeat)) + r"(\.|\?){0,}$"
 
-            regex = r"^(\.|\?){0,}" + "".join((regex * repeat)[:-1]) + r"(\.|\?){0,}$"
-
-            cond = ""
-            for i in range(repeat):
-                cond += condition + "?" 
-            print(f"Searching:{cond[:-1]}\n{regex}")
-            conditions = self.create_configurations([list(cond[:-1])], regex)
+            condition = "?".join([condition] * repeat) 
+            print(f"Searching:{condition}")
+            condition = re.sub(r"\.{2,}", ".", condition) # We can remove unnecessary .'s
+            condition = re.sub(r"(^\.|\.$)", "", condition)
+            conditions = self.create_configurations([list(condition)], regex)
 
             print(f"Valid Conditions: {len(conditions)}")
             total_count += len(conditions)
