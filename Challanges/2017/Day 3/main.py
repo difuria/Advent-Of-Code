@@ -57,5 +57,52 @@ def calculate_distance(access_point):
 
     return abs(access_point_position[0] - center_position[0]) + abs(access_point_position[1] - center_position[1])
 
+def find_first_largest_number(value):
+    movement_order = [[1, 0], [0, -1], [-1, 0], [0, 1]]
+    add_values = [[1, 1], [0, 1], [-1, 1], [-1, -1], [0, -1], [1, -1], [1, 0], [-1, 0]]
+
+    position = [0, 0]
+    location_values = { 
+        0: {
+            0:1
+        }
+    }
+
+    current_value = 0
+    current_movement = movement_order.pop(0)
+    movement_order.append(current_movement)
+    while current_value <= value:
+        current_value = 0
+        x, y = position
+        x += current_movement[0]
+        y += current_movement[1]
+        position = [x, y]
+
+        if x not in location_values:
+            location_values[x] = {}
+        if y not in location_values[x]:
+            location_values[x][y] = 0
+        
+        for add_value in add_values:
+            check_x = x + add_value[0]
+            check_y = y + add_value[1]
+
+            if check_x in location_values and check_y in location_values[check_x]:
+                current_value += location_values[check_x][check_y]
+            
+            location_values[x][y] = current_value
+        next_movement = movement_order[0]
+        potential_x = x + next_movement[0]
+        potential_y = y + next_movement[1]
+        if not potential_x in location_values or (potential_x in location_values and not potential_y in location_values[potential_x]):
+            current_movement = movement_order.pop(0)
+            movement_order.append(current_movement)     
+        
+    print(f"First largest value is {current_value}")
+
+print("Task 1 distances")
 for point in [1, 12, 23, 1024, 325489]:
     print(f"Distance to point {point} is {calculate_distance(point)}.")
+
+print("\nTask 2")
+find_first_largest_number(325489)
