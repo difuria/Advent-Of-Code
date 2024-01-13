@@ -41,10 +41,18 @@ So, the first few squares' values are chosen as follows:
 
 Once a square is written, its value does not change. Therefore, the first few squares would receive the following values:
 
-  147  142  133  122   59
-  304    5    4    2   57
-  330   10    1    1   54
-  351   11   23   25   26
-  362  747  806--->   ...
+    147  142  133  122   59
+    304    5    4    2   57
+    330   10    1    1   54
+    351   11   23   25   26
+    362  747  806--->   ...
 
 What is the **first value written** that is **larger** than your puzzle input?
+
+Your puzzle answer was `330785`.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
+
+At this point, you should [return to your Advent calendar](https://adventofcode.com/2017) and try another puzzle.
+
+Your puzzle input was `325489`.
