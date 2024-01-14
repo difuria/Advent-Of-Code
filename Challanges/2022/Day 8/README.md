@@ -59,11 +59,11 @@ A tree's **scenic score** is found by **multiplying together** its viewing dista
 
 However, you can do even better: consider the tree of height `5` in the middle of the fourth row:
 
-  30373
-  25512
-  65332
-  33549
-  35390
+    30373
+    25512
+    65332
+    33549
+    35390
 
   - Looking up, its view is blocked at **`2`** trees (by another tree with a height of `5`).
   - Looking left, its view is not blocked; it can see **`2`** trees.
