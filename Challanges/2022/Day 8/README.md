@@ -34,7 +34,7 @@ Your puzzle answer was 1823.
 
 The first half of this puzzle is complete! It provides one gold star: *
 
-### --- Part Two ---
+### --- Part Two ---
 
 Content with the amount of tree cover available, the Elves just need to know the best spot to build their tree house: they would like to be able to see a lot of **trees**.
 
@@ -73,3 +73,7 @@ However, you can do even better: consider the tree of height `5` in the middle o
 This tree's scenic score is **`8`** (`2 * 2 * 1 * 2`); this is the ideal spot for the tree house.
 
 Consider each tree on your map. **What is the highest scenic score possible for any tree?**
+
+Your puzzle answer was `211680`.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
