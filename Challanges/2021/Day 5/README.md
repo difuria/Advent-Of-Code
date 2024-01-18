@@ -41,7 +41,7 @@ To avoid the most dangerous areas, you need to determine **the number of points 
 
 Consider only horizontal and vertical lines. **At how many points do at least two lines overlap?**
 
-Your puzzle answer was 5092.
+Your puzzle answer was `5092`.
 
 The first half of this puzzle is complete! It provides one gold star: *
 
