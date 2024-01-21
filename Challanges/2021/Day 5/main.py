@@ -17,7 +17,7 @@ class HydrothermalVents:
         for y in range(self.largest["y"] + 1):
             self.grid.append(["."] * (self.largest["x"] + 1))
 
-    def draw_straight_lines(self, print_output = True, diagonal_lines = False):
+    def draw_lines(self, print_output = True, diagonal_lines = False):
         overlapping_points = 0
         for segment in self.line_segments:
             start, end = segment
@@ -92,12 +92,12 @@ if __name__ == "__main__":
 
     print("Test Inputs")
     hydrothermal_vents = HydrothermalVents(get_file(path, "test_vents_1.txt"))
-    hydrothermal_vents.draw_straight_lines()
+    hydrothermal_vents.draw_lines()
     hydrothermal_vents = HydrothermalVents(get_file(path, "test_vents_1.txt"))
-    hydrothermal_vents.draw_straight_lines(True, True)
+    hydrothermal_vents.draw_lines(True, True)
 
     print("\nPuzzle Inputs")
     hydrothermal_vents = HydrothermalVents(get_file(path, "puzzle_vents_1.txt"))
-    hydrothermal_vents.draw_straight_lines(False)
+    hydrothermal_vents.draw_lines(False)
     hydrothermal_vents = HydrothermalVents(get_file(path, "puzzle_vents_1.txt"))
-    hydrothermal_vents.draw_straight_lines(False, True)
+    hydrothermal_vents.draw_lines(False, True)
