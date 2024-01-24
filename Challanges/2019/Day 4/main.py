@@ -20,21 +20,26 @@ def valid_password(password, task):
         current_value = digit
 
     if task == 2:
-        for length in running_lengths.values():
-            if length % 2 != 0:
-                return False
+        if running_lengths:
+            contains_double = False
+            for value in running_lengths.values():
+                if value == 2:
+                    contains_double = True
+            
+            return contains_double
 
     return adjacent_digits
 
 if __name__ == "__main__":
-    task = 1
+    task = 2
     for password in ["122345", "111123", "135679", "111111", "223450", "123789", "112233", "123444", "111122"]:
         valid = valid_password(password, task)
         print(f"{password} is valid {valid}")
 
-    print("\nPuzzle range")
+    from_val, to_val = [138241, 674034]
+    print(f"\nPuzzle range {from_val} to {to_val}")
     valid_passwords = 0
-    for password in range(138241, 674034):
+    for password in range(from_val, to_val):
         if valid_password(password, task):
             valid_passwords += 1
     
