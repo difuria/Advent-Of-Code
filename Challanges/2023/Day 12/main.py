@@ -41,7 +41,6 @@ class HotSprings:
         # TODO fix - For task 2 it takes ages to run
         total_count = 0
         for r in self.records:
-            
             condition, record = r
             record = record.split(",")
 
@@ -58,6 +57,43 @@ class HotSprings:
             total_count += len(conditions)
 
         print(f"Total count is {total_count}")
+
+    def recursive_count(self, condition, record):
+        if condition == "" :
+            # If nothing is remainig and no records match 
+            return 1 if record == () else 0
+
+        if record == ():
+            return 0 if "#" in condition else 1
+        
+        key = (condition, record)
+        if key in self.cache:
+            return self.cache[key]
+
+        result = 0
+        if condition[0] in ".?":
+            result += self.recursive_count(condition[1:], record)
+        
+        if condition[0] in "#?":
+            if record[0] <= len(condition) and not "." in condition[:record[0]] and (record[0] == len(condition) or condition[record[0]] != "#"):
+                # The 1: is because we must end with a . 
+                result += self.recursive_count(condition[record[0]+1:], record[1:])
+
+        self.cache[key] = result        
+        return result
+
+    def find_configurations(self, repeat = 1):
+        total_count = 0
+        for r in self.records:
+            self.cache = {}
+            condition, record = r
+
+            condition = "?".join([condition] * repeat) 
+            record = tuple(map(int, record.split(",") * repeat))
+
+            total_count += self.recursive_count(condition, record)
+        
+        print(f"Total count recursively found is {total_count}")
 
 def get_file(path, file):
     file = os.path.join(path, f"Task Inputs", file)
@@ -76,3 +112,4 @@ if __name__ == "__main__":
 
     hot_springs = HotSprings(get_file(path, input_text))
     hot_springs.determine_valid_configuration()
+    hot_springs.find_configurations(5)
