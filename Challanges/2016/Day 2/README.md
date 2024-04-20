@@ -52,3 +52,7 @@ You still start at "5" and stop when you're at an edge, but given the same instr
 So, given the actual keypad layout, the code would be `5DB3`.
 
 Using the same instructions in your puzzle input, what is the correct **bathroom code**?
+
+Your puzzle answer was `A7AC3`.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
