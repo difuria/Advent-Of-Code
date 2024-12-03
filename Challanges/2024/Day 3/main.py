@@ -18,20 +18,16 @@ def get_total(puzzle_input, regex):
             continue
 
         mul = mul.replace("mul(", "").replace(")", "")
-        try:
-            x, y = list(map(int, mul.split(",")))
-            total += (x*y)
-        except:
-            # Ignore single finds such as mul(901)
-            pass
+        x, y = list(map(int, mul.split(",")))
+        total += (x*y)
     
     return total
 
-regex = r'mul\([0-9{1,},[0-9]{1,}\)'
+regex = r'mul\([0-9]{1,},[0-9]{1,}\)'
 print(f"Total for test input is {get_total(test_input_1, regex)}")
 print(f"Total for puzzle input is {get_total(puzzle_input_1, regex)}")
 
-regex = r'(mul\([0-9{1,},[0-9]{1,}\)|don\'t\(\)|do\(\))'
+regex = r'(mul\([0-9]{1,},[0-9]{1,}\)|don\'t\(\)|do\(\))'
 print(f"Total for task 2 test input 1 is {get_total(test_input_1, regex)}")
 print(f"Total for task 2 test input 2 is {get_total(test_input_2, regex)}")
 print(f"Total for task 2 puzzle input is {get_total(puzzle_input_1, regex)}")
