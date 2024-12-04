@@ -30,7 +30,6 @@ def breadth_first_search(text: list, desired_word: str, i: int, j: int) -> list:
                     current_path + [[new_x, new_y]]
                 ])
 
-
     found = []
     while queue: 
         current_position, movement, current_index, current_path = queue.pop()
@@ -76,13 +75,12 @@ def find_starting_letter(text: list, desired_word="XMAS") -> list:
 
 
 def print_map(found: list, text:str) -> None:
-    # to view comparison
+    # To view visual representation of output
     arr = []
     for i in range(len(text)):
         arr.append([])
         for j in range(len(text[i])):
             arr[-1].append(".")
-
 
     for f in found:
         for x, y in f:
@@ -95,19 +93,19 @@ def print_map(found: list, text:str) -> None:
     print(new_text)
 
 
-def corner_in_text(text:str, corners: list):
+def corner_in_text(text:str, corners: list) -> bool:
     for corner in corners:
         x, y = corner
-        
+
         if y >= len(text) or y < 0:
             return False
         elif x >= len(text[y]) or x < 0:
             return False
-    
+
     return True
 
 
-def x_mas_map(text: list):
+def x_mas_map(text: list) -> list:
     found = []
     for y, line in enumerate(text):
         for x, letter in enumerate(line):
