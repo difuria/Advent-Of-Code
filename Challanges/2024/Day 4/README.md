@@ -73,3 +73,7 @@ Here's the same example from before, but this time all of the `X-MAS`es have bee
 In this example, an `X-MAS` appears **`9`** times.
 
 Flip the word search from the instructions back over to the word search side and try again. **How many times does an** **`X-MAS`** **appear?**
+
+Your puzzle answer was `2046`.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
