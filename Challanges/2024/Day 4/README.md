@@ -28,16 +28,16 @@ The actual word search will be full of letters instead. For example:
 
 In this word search, `XMAS` occurs a total of **`18`** times; here's the same word search again, but where letters not involved in any XMAS have been replaced with `.`:
 
-....XXMAS.
-.SAMXMS...
-...S..A...
-..A.A.MS.X
-XMASAMX.MM
-X.....XA.A
-S.S.S.S.SS
-.A.A.A.A.A
-..M.M.M.MM
-.X.X.XMASX
+    ....XXMAS.
+    .SAMXMS...
+    ...S..A...
+    ..A.A.MS.X
+    XMASAMX.MM
+    X.....XA.A
+    S.S.S.S.SS
+    .A.A.A.A.A
+    ..M.M.M.MM
+    .X.X.XMASX
 
 Take a look at the little Elf's word search. **How many times does XMAS appear?**
 
