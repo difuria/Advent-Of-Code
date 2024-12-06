@@ -1,6 +1,8 @@
 from Inputs.puzzle_inputs import puzzle_input_1
 from Inputs.test_inputs import test_input_1
 
+from typing import List, Tuple
+
 
 def get_grid(text: str) -> None:
     text_split: list = text.strip().split("\n")
@@ -26,7 +28,7 @@ def print_grid(grid: list) -> None:
         print("".join(row))
 
 
-def find_movement(grid: list, position: list, o_position: tuple = ()) -> list:
+def find_movement(grid: list, position: list, o_position: tuple = ()) -> Tuple[List[int], Tuple[int, int], List[int]]:
     in_grid: bool = True
     o_positions: list = []
 
@@ -93,7 +95,6 @@ print("Task 1")
 grid = get_grid(current_input)
 starting_position = find_starting_position(grid)
 movement_grid, repeating_position, o_positions = find_movement(grid, starting_position)
-
 
 # Solution for task 2:
 # track where the guard has been and what direction they were travelling when there. Then if ever revisited in the same direction we know we've found a loop
