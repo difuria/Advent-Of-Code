@@ -1,6 +1,7 @@
 from Inputs.puzzle_inputs import puzzle_input_1
 from Inputs.test_inputs import test_input_1
 
+
 def get_grid(text: str) -> None:
     text_split: list = text.strip().split("\n")
 
@@ -120,6 +121,3 @@ for o_position in o_positions:
         possible_repeating_positions.add(repeating_position)
 
 print(f"There are a total of {len(possible_repeating_positions)} repeating obstacle positions.")
-print(possible_repeating_positions)
-
-
