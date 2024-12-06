@@ -193,3 +193,6 @@ It doesn't really matter what you choose to use as an obstacle so long as you an
 
 You need to get the guard stuck in a loop by adding a single new obstruction. **How many different positions could you choose for this obstruction?**
 
+Your puzzle answer was `1984`.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
