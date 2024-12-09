@@ -74,3 +74,7 @@ The first example from above now proceeds differently:
 The process of updating the filesystem checksum is the same; now, this example's checksum would be **`2858`**.
 
 Start over, now compacting the amphipod's hard drive using this new method instead. **What is the resulting filesystem checksum?**
+
+Your puzzle answer was `6183632723350`.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
