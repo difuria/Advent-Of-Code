@@ -57,10 +57,10 @@ def fill_in_block_space_whole(
         block_space = block_spaces.pop()
 
         for i, free_space in enumerate(free_spaces):
+            # Once the blocks meets the free space index we know we've looped through everything
             if block_space["starting index"] <= free_space["starting index"]:
                 break
 
-            # Once the blocks meets the free space index we know we've looped through everything
             if block_space["length"] <= free_space["length"]:
                 right = block_space["starting index"]
                 for left in range(free_space["starting index"], free_space["starting index"] + block_space["length"]):
