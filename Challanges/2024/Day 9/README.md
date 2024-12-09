@@ -20,7 +20,7 @@ The first example above, `2333133121414131402`, represents these individual bloc
 
     00...111...2...333.44.5555.6666.777.888899
 
-The amphipod would like to **move file blocks one at a time** from the end of the disk to the leftmost free space block (until there are no gaps remaining between file blocks). For the disk map 12345, the process looks like this:
+The amphipod would like to **move file blocks one at a time** from the end of the disk to the leftmost free space block (until there are no gaps remaining between file blocks). For the disk map `12345`, the process looks like this:
 
     0..111....22222
     02.111....2222.
