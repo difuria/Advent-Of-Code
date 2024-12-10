@@ -73,25 +73,17 @@ for key, value in test_inputs.items():
     t_map = create_map(value["Input"])
     valid_trails, valid_paths = find_paths(t_map)
     
-    task = "Task 1"
-    if task in value["Answers"]:
-        test_cases += 1
-        if valid_trails == value["Answers"][task]:
-            passed_tests += 1
-            print(f"Passed for {task}.")
-        else:
-            print(f"Failed for {task}.")
-    
-    task = "Task 2"
-    if task in value["Answers"]:
-        test_cases += 1
-        if valid_paths == value["Answers"][task]:
-            passed_tests += 1
-            print(f"Passed for {task}.")
-        else:
-            print(f"Failed for {task}.")
-    print()
+    tasks = [["Task 1", valid_trails], ["Task 2", valid_paths]]
+    for task, answer in tasks:
+        if task in value["Answers"]:
+            test_cases += 1
+            if answer == value["Answers"][task]:
+                passed_tests += 1
+                print(f"Passed for {task}.")
+            else:
+                print(f"Failed for {task}.")
 
+    print()
 
 if passed_tests == test_cases:
     print("All tests passes running Puzzle Inputs")
