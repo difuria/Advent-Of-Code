@@ -18,7 +18,8 @@ test_inputs = {
 9.....9
 """,
         "Answers": {
-            "Task 1": 2
+            "Task 1": 2,
+            "Task 2": 2
         }
     },
     "3": {
@@ -68,6 +69,7 @@ test_inputs = {
 ..8765.
 ..9....""",
         "Answers": {
+            "Task 1": 1,
             "Task 2": 3
         }
     },
