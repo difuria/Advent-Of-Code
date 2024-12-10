@@ -65,7 +65,6 @@ def find_paths(t_map: list[str]) -> tuple[int, int]:
     return sum_trails, sum_paths
 
 
-print("Task")
 test_cases = 0
 passed_tests = 0
 for key, value in test_inputs.items():
