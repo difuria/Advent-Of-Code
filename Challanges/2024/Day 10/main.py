@@ -1,11 +1,5 @@
 from Inputs.puzzle_inputs import puzzle_input_1
-from Inputs.test_inputs import (
-    test_input_1, test_answer_1, 
-    test_input_2, test_answer_2,
-    test_input_3, test_answer_3,
-    test_input_4, test_answer_4,
-    test_input_5, test_answer_5
-)
+from Inputs.test_inputs import test_inputs
 
 
 def create_map(text: str) -> list[str]:
@@ -22,13 +16,15 @@ def find_starting_positions(t_map: list[str]) -> list[list[int]]:
     return starting_positions
 
 
-def find_paths(t_map: list[str]) -> None:
+def find_paths(t_map: list[str]) -> tuple[int, int]:
     starting_positions = find_starting_positions(t_map)
 
-    sum = 0
+    sum_trails = 0
+    sum_paths = 0
     for starting_position in starting_positions:
         paths = []
-        valid_paths = set()
+        valid_trails = set()
+        valid_paths = []
         movements = [
             [1, 0],
             [-1, 0],
@@ -56,32 +52,48 @@ def find_paths(t_map: list[str]) -> None:
                 if int(t_map[new_y][new_x]) == int(t_map[cur_y][cur_x]) + 1:
                     current_path_with_movement.append((new_x, new_y))
                     if t_map[new_y][new_x] == "9":
-                        valid_paths.add((new_x, new_y))
+                        valid_trails.add((new_x, new_y))
+                        valid_paths.append(current_path_with_movement)
                     else:
                         paths.append(current_path_with_movement[:])
     
-        print(len(valid_paths))
-        sum += len(valid_paths)
+        sum_trails += len(valid_trails)
+        sum_paths += len(valid_paths)
     
-    print(f"There are a total of {sum} valid paths.")
-    return sum
-
-print("Task 1")
-test = [[test_input_1, test_answer_1], [test_input_2, test_answer_2], [test_input_3, test_answer_3], [test_input_4, test_answer_4], [test_input_5, test_answer_5]]
-test_number = 1
-test = [[test_input_5, test_answer_5]]
-for test_input, test_answer in test:
-    t_map = create_map(test_input)
-    valid_paths = find_paths(t_map)
-
-    if valid_paths == test_answer:
-        print(f"Correct for test input {test_number}")
-
-    test_number += 1
+    print(f"There are a total of {sum_trails} valid trail.")
+    print(f"There are a total of {sum_paths} valid paths.")
+    return sum_trails, sum_paths
 
 
-t_map = create_map(puzzle_input_1)
-valid_paths = find_paths(t_map)
+print("Task")
+test_cases = 0
+passed_tests = 0
+for key, value in test_inputs.items():
+    print(f"Running test {key}.")
+    t_map = create_map(value["Input"])
+    valid_trails, valid_paths = find_paths(t_map)
+    
+    task = "Task 1"
+    if task in value["Answers"]:
+        test_cases += 1
+        if valid_trails == value["Answers"][task]:
+            passed_tests += 1
+            print(f"Passed for {task}.")
+        else:
+            print(f"Failed for {task}.")
+    
+    task = "Task 2"
+    if task in value["Answers"]:
+        test_cases += 1
+        if valid_paths == value["Answers"][task]:
+            passed_tests += 1
+            print(f"Passed for {task}.")
+        else:
+            print(f"Failed for {task}.")
+    print()
 
-if valid_paths == test_answer:
-    print(f"Correct for test input {test_number}")
+
+if passed_tests == test_cases:
+    print("All tests passes running Puzzle Inputs")
+    t_map = create_map(puzzle_input_1)
+    valid_trails, valid_paths = find_paths(t_map)
