@@ -65,3 +65,6 @@ The Historians sure are taking a long time. To be fair, the infinite corridors a
 
 How many stones would you have after blinking a total of 75 times?
 
+Your puzzle answer was `220566831337810`.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
