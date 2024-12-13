@@ -74,7 +74,6 @@ def sum_puzzle_tokens(puzzles: list[dict[str, int]]):
     tokens = 0
     for puzzle in puzzles:
         fewest_tokens = calculate_fewest_tokens(puzzle)
-        print(fewest_tokens)
         if fewest_tokens > -1:
             tokens += fewest_tokens
     
@@ -116,7 +115,7 @@ ax*s*by - px*by = ay*s*bx - py*bx
 ax*s*by = ay*s*bx - py*bx + px*by
 ax*s*by - ay*s*bx = px*by - py*bx
 s(ax*by - ay * bx) = px*by - py*bx
-s = (px*by - py*bx) / (ax*by - ay * bx)
+s = (px*by - py*bx) / (ax*by - ay*bx)
 
 Once we have s we can work out t with something as simple as:
 t = (px - (ax*s)) / bx
