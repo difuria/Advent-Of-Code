@@ -74,7 +74,45 @@ def calculate_robots_in_quadrants(robots: list[dict[str, list[int]]], grid_size:
     print(f"Safety count is {safety_count}")     
 
 
-def print_grid(robots: list[dict[str, list[int]]], grid_size: list[int] = [101, 103]) -> None:
+def find_tree(robots: list[dict[str, list[int]]]) -> None:
+    """
+    There is probably a better way of solving task 2. For this solution we're just finding the first time 
+    20 robots are surrounded by other robots. Then assuming that must be the tree.
+    """
+    i = 1
+    while True:
+        robots = move_robots(robots, 1)
+        grid = print_grid(robots, display_grid=False)
+        count = 0
+        for robot in robots:
+            x, y = robot["pos"]
+            # Lets just see if we can find something surrounded
+            mov_count = 0
+            movements = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+            for movement in movements:
+                new_x = movement[0] + x
+                new_y = movement[1] + y
+
+                if new_y < 0 or new_y >= len(grid):
+                    break
+                elif new_x < 0 or new_x >= len(grid[new_y]):
+                    break
+                elif grid[new_y][new_x] == ".":
+                    break
+
+                mov_count += 1
+
+            if mov_count == 4:
+                count += 1
+        
+        if count >= 20:
+            print_grid(robots)
+            print(f"{i} steps were taken before the tree was seen.")
+            break
+        i += 1
+
+
+def print_grid(robots: list[dict[str, list[int]]], grid_size: list[int] = [101, 103], display_grid: bool = True) -> list[list[str, int]]:
     grid = []
     for i in range(grid_size[1]):
         grid.append([])
@@ -93,7 +131,10 @@ def print_grid(robots: list[dict[str, list[int]]], grid_size: list[int] = [101, 
         print_line = ""
         for char in line:
             print_line += str(char)
-        print(print_line)
+        if display_grid:
+            print(print_line)
+    
+    return grid
 
 
 print("Test Inputs")
@@ -111,7 +152,12 @@ calculate_robots_in_quadrants(robots, grid_size)
 
 print()
 print("Puzzle Input")
+print("Task 1")
 robots = find_robots(puzzle_inputs_1)
 robots = move_robots(robots, 100)
 print_grid(robots)
 calculate_robots_in_quadrants(robots)
+
+print("\nTask 2")
+robots = find_robots(puzzle_inputs_1)
+find_tree(robots)
