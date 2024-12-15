@@ -51,6 +51,9 @@ class WarehouseWoes:
         }
 
         for movement in self.movements:
+            print(movement)
+            self.print_grid()
+            input()
             old_x, old_y = self.robot
             mov = movs[movement] # translate the movement into directions 
             new_x = old_x + mov[0]
@@ -59,6 +62,16 @@ class WarehouseWoes:
 
             if self.grid[new_y][new_x] == "O":
                 self._move_o(new_location, mov)
+            elif self.grid[new_y][new_x] in ["[", "]"]:
+                if self.grid[new_y][new_x] == "[":
+                    open_pos = new_location
+                    close_pos = (new_x + 1, new_y)
+                else:
+                    open_pos = (new_x - 1, new_y)
+                    close_pos = new_location
+
+                if self._determine_if_movement_is_possible(open_pos, close_pos, mov):
+                    self._move_brackets(open_pos, close_pos, mov)
 
             if self.grid[new_y][new_x] == "#":
                 # Robot will hit a wall do nothing
@@ -71,8 +84,112 @@ class WarehouseWoes:
                 # We weren't able to move the ofending O so do nothing
                 continue
             else:
-                raise ValueError(f"Unknown object of {self.grid[new_y][new_x]} found at ({new_x, new_y}).")
+                raise ValueError(f"Unknown object of {self.grid[new_y][new_x]} found at ({new_x}, {new_y}).")
             
+    def _move_brackets(self, open_pos: list[int], close_pos: list[int], movement: tuple[int]) -> None:
+        """
+        We should only be moving a bracket if we know it's possible to move them all. 
+        """
+        new_open_x = open_pos[0] + movement[0]
+        new_open_y = open_pos[1] + movement[1]
+        new_open_pos = (new_open_x, new_open_y)
+
+        new_close_x = close_pos[0] + movement[0]
+        new_close_y = close_pos[1] + movement[1]
+        new_close_pos = (new_close_x, new_close_y)
+
+        new_close_char = self.grid[new_close_y][new_close_x]
+        new_open_char = self.grid[new_open_y][new_open_x]
+
+        if movement == (1, 0):
+            # We're moving right so we only care about the closing position
+            if new_close_char == "[":
+                self._move_brackets(new_close_pos, (new_close_x + 1, new_close_y), movement)
+        elif movement == (-1, 0):
+            # We're moving left so we only care about the opening position
+            if new_open_char == "]":
+                self._move_brackets((new_open_x - 1, new_open_y), new_open_pos, movement)
+        else:
+            # Moving up or down we care about both
+            if new_open_char == "[":
+                cur_close_pos = (new_open_x + 1, new_open_y) 
+                cur_open_pos = new_open_pos
+
+                self._move_brackets(cur_open_pos, cur_close_pos, movement)
+
+            if new_open_char == "]":
+                cur_close_pos = new_open_pos
+                cur_open_pos = (new_open_x - 1, new_open_y)
+
+                self._move_brackets(cur_open_pos, cur_close_pos, movement)
+
+            if new_close_char == "[":
+                cur_close_pos = (new_close_x + 1, new_open_y)
+                cur_open_pos = new_close_pos
+
+                self._move_brackets(cur_open_pos, cur_close_pos, movement)
+
+        old_open_x, old_open_y = open_pos
+        old_close_x, old_close_y = close_pos
+
+        self.grid[old_open_y][old_open_x] = "."
+        self.grid[old_close_y][old_close_x] = "."
+
+        self.grid[new_open_y][new_open_x] = "["
+        self.grid[new_close_y][new_close_x] = "]"
+
+    def _determine_if_movement_is_possible(self, open_pos: list[int], close_pos: list[int], movement: tuple[int]) -> bool:
+        """
+        Before we begin moving everything we need to determine if everything in the tree can be moved. As the 
+        farthest left node won't move if the furtherest right is blocked. 
+        """
+        new_open_x = open_pos[0] + movement[0]
+        new_open_y = open_pos[1] + movement[1]
+        new_open_pos = (new_open_x, new_open_y)
+
+        new_close_x = close_pos[0] + movement[0]
+        new_close_y = close_pos[1] + movement[1]
+        new_close_pos = (new_close_x, new_close_y)
+
+        new_close_char = self.grid[new_close_y][new_close_x]
+        new_open_char = self.grid[new_open_y][new_open_x]
+
+        if new_open_char == "#" or new_close_char == "#":
+            return False
+
+        brackets = ["[", "]"]
+        possible = True
+        if movement == (1, 0):
+            # We're moving right so we only care about the closing position
+            if new_close_char == "[":
+                possible = self._determine_if_movement_is_possible(new_close_pos, (new_close_x + 1, new_close_y), movement)
+            elif new_close_char != ".":
+                raise ValueError(f"Unknown character of {new_close_char} at {new_close_pos}.")
+        elif movement == (-1, 0):
+            # We're moving left so we only care about the opening position
+            if new_open_char == "]":
+                possible = self._determine_if_movement_is_possible((new_open_x - 1, new_open_y), new_open_pos, movement)
+            elif new_open_char != ".":
+                raise ValueError(f"Unknown character of {new_open_char} at {new_open_pos}.")
+        else:
+            # Moving up or down we care about both
+            if new_open_char in brackets:
+                if new_open_char == "[":
+                    new_close_pos = (new_open_x + 1, new_open_y) 
+                else:
+                    new_open_pos = (new_open_x - 1, new_open_y)
+
+                possible = self._determine_if_movement_is_possible(new_open_pos, new_close_pos, movement)
+            elif new_close_pos in brackets:
+                if new_close_char == "[":
+                    new_close_pos = (new_close_x + 1, new_close_y) 
+                else:
+                    new_open_pos = (new_close_x - 1, new_close_y)
+
+                possible = self._determine_if_movement_is_possible(new_open_pos, new_close_pos, movement)     
+
+        return possible
+     
     def _move_o(self, o_location: tuple[int], movement: tuple[int]) -> None:
         """Recursively move O's that are blocked by other O's"""
         old_x, old_y = o_location
@@ -92,7 +209,7 @@ class WarehouseWoes:
             # We weren't able to move the ofending O so do nothing
             return
         else:
-             raise ValueError(f"Unknown object of {self.grid[new_y][new_x]} found at ({new_x, new_y}).")
+             raise ValueError(f"Unknown object of {self.grid[new_y][new_x]} found at ({new_x}, {new_y}).")
         
     def print_grid(self):
         for line in self.grid:
@@ -110,20 +227,27 @@ class WarehouseWoes:
         return sum
 
 
-print("Task 1 ")
+# print("Task 1 ")
+# print("Test input small")
+# small_test_input = WarehouseWoes(test_inputs["small"]["Input"])
+# small_test_input.analyse_movements()
+# small_test_input.print_grid()
+# sum = small_test_input.sum_gps_coordinates()
+
+# print("\nTest input Large")
+# large_test_input = WarehouseWoes(test_inputs["large"]["Input"])
+# large_test_input.analyse_movements()
+# large_test_input.print_grid()
+# large_test_input.sum_gps_coordinates()
+
+# print("\nPuzzle input")
+# puzzle_input = WarehouseWoes(test_inputs["small"]["Input"])
+# puzzle_input.analyse_movements()
+# puzzle_input.print_grid()
+
+print("Task 2 ")
 print("Test input small")
-small_test_input = WarehouseWoes(test_inputs["small"]["Input"])
+small_test_input = WarehouseWoes(test_inputs["large"]["Input"], 2)
 small_test_input.analyse_movements()
 small_test_input.print_grid()
 sum = small_test_input.sum_gps_coordinates()
-
-print("\nTest input Large")
-large_test_input = WarehouseWoes(test_inputs["large"]["Input"])
-large_test_input.analyse_movements()
-large_test_input.print_grid()
-large_test_input.sum_gps_coordinates()
-
-print("\nPuzzle input")
-puzzle_input = WarehouseWoes(puzzle_input_1)
-puzzle_input.analyse_movements()
-puzzle_input.sum_gps_coordinates()
