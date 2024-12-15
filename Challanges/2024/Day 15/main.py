@@ -51,9 +51,6 @@ class WarehouseWoes:
         }
 
         for movement in self.movements:
-            print(movement)
-            self.print_grid()
-            input()
             old_x, old_y = self.robot
             mov = movs[movement] # translate the movement into directions 
             new_x = old_x + mov[0]
@@ -157,7 +154,6 @@ class WarehouseWoes:
         if new_open_char == "#" or new_close_char == "#":
             return False
 
-        brackets = ["[", "]"]
         possible = True
         if movement == (1, 0):
             # We're moving right so we only care about the closing position
@@ -173,20 +169,26 @@ class WarehouseWoes:
                 raise ValueError(f"Unknown character of {new_open_char} at {new_open_pos}.")
         else:
             # Moving up or down we care about both
-            if new_open_char in brackets:
-                if new_open_char == "[":
-                    new_close_pos = (new_open_x + 1, new_open_y) 
-                else:
-                    new_open_pos = (new_open_x - 1, new_open_y)
 
-                possible = self._determine_if_movement_is_possible(new_open_pos, new_close_pos, movement)
-            elif new_close_pos in brackets:
-                if new_close_char == "[":
-                    new_close_pos = (new_close_x + 1, new_close_y) 
-                else:
-                    new_open_pos = (new_close_x - 1, new_close_y)
+            # If the above box lines up
+            if new_open_char == "[":
+                cur_close_pos = (new_open_x + 1, new_open_y) 
+                cur_open_pos = new_open_pos
 
-                possible = self._determine_if_movement_is_possible(new_open_pos, new_close_pos, movement)     
+                possible = self._determine_if_movement_is_possible(cur_open_pos, cur_close_pos, movement)
+
+            # The following 2 if's are for if the opposite brackets line up.
+            if new_open_char == "]" and possible:
+                cur_close_pos = new_open_pos
+                cur_open_pos = (new_open_x - 1, new_open_y)
+
+                possible = self._determine_if_movement_is_possible(cur_open_pos, cur_close_pos, movement)
+
+            if new_close_char == "[" and possible:
+                cur_close_pos = (new_close_x + 1, new_open_y)
+                cur_open_pos = new_close_pos
+
+                possible = self._determine_if_movement_is_possible(cur_open_pos, cur_close_pos, movement)   
 
         return possible
      
@@ -220,34 +222,39 @@ class WarehouseWoes:
         sum = 0
         for y, line in enumerate(self.grid):
             for x, char in enumerate(line):
-                if char == "O":
+                if char in ["O", "["]:
                     sum += (100 * y) + x
         
         print(f"Sum of GPS Coordinates is {sum}.")
         return sum
 
 
-# print("Task 1 ")
-# print("Test input small")
-# small_test_input = WarehouseWoes(test_inputs["small"]["Input"])
-# small_test_input.analyse_movements()
-# small_test_input.print_grid()
-# sum = small_test_input.sum_gps_coordinates()
-
-# print("\nTest input Large")
-# large_test_input = WarehouseWoes(test_inputs["large"]["Input"])
-# large_test_input.analyse_movements()
-# large_test_input.print_grid()
-# large_test_input.sum_gps_coordinates()
-
-# print("\nPuzzle input")
-# puzzle_input = WarehouseWoes(test_inputs["small"]["Input"])
-# puzzle_input.analyse_movements()
-# puzzle_input.print_grid()
-
-print("Task 2 ")
+print("Task 1 ")
 print("Test input small")
-small_test_input = WarehouseWoes(test_inputs["large"]["Input"], 2)
+small_test_input = WarehouseWoes(test_inputs["small"]["Input"])
 small_test_input.analyse_movements()
 small_test_input.print_grid()
 sum = small_test_input.sum_gps_coordinates()
+
+print("\nTest input Large")
+large_test_input = WarehouseWoes(test_inputs["large"]["Input"])
+large_test_input.analyse_movements()
+large_test_input.print_grid()
+large_test_input.sum_gps_coordinates()
+
+print("\nPuzzle input")
+puzzle_input = WarehouseWoes(test_inputs["small"]["Input"])
+puzzle_input.analyse_movements()
+puzzle_input.print_grid()
+
+print("Task 2 ")
+print("Test input small")
+large_test_input_2 = WarehouseWoes(test_inputs["large"]["Input"], 2)
+large_test_input_2.analyse_movements()
+large_test_input_2.print_grid()
+sum = large_test_input_2.sum_gps_coordinates()
+
+puzzle_input_2 = WarehouseWoes(puzzle_input_1, 2)
+puzzle_input_2.analyse_movements()
+puzzle_input_2.print_grid()
+sum = puzzle_input_2.sum_gps_coordinates()
