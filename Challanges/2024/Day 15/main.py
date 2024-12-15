@@ -3,7 +3,8 @@ from Inputs.test_inputs import test_inputs
 
 
 class WarehouseWoes:
-    def __init__(self, text_input: str) -> None:
+    def __init__(self, text_input: str, task: int = 1) -> None:
+        self.task = task
         self.grid, self.movements = self._generate_grid(text_input)
         self.robot = self._find_robot()
 
@@ -12,7 +13,23 @@ class WarehouseWoes:
 
         grid = []
         for g_line in g.splitlines():
-            grid.append(list(g_line))
+            if self.task == 1:
+                grid.append(list(g_line))
+            elif self.task == 2:
+                current_line = []
+                for char in g_line:
+                    if char == "O":
+                        current_line.append("[")
+                        current_line.append("]")
+                    elif char == "@":
+                        current_line.append("@")
+                        current_line.append(".")
+                    else:
+                        current_line.append(char)
+                        current_line.append(char)
+                grid.append(current_line)
+            else:
+                ValueError(f"Invalid task of {self.task}.")
 
         movements = []
         for m_line in m.splitlines():
@@ -50,7 +67,7 @@ class WarehouseWoes:
                 self.grid[new_y][new_x] = "@"
                 self.grid[old_y][old_x] = "."
                 self.robot = new_location
-            elif self.grid[new_y][new_x] == "O":
+            elif self.grid[new_y][new_x] in ["O", "[", "]"]:
                 # We weren't able to move the ofending O so do nothing
                 continue
             else:
@@ -89,21 +106,24 @@ class WarehouseWoes:
                 if char == "O":
                     sum += (100 * y) + x
         
-        print(f"Sum of GPS COordinates is {sum}.")
+        print(f"Sum of GPS Coordinates is {sum}.")
         return sum
 
 
+print("Task 1 ")
+print("Test input small")
 small_test_input = WarehouseWoes(test_inputs["small"]["Input"])
 small_test_input.analyse_movements()
 small_test_input.print_grid()
 sum = small_test_input.sum_gps_coordinates()
 
+print("\nTest input Large")
 large_test_input = WarehouseWoes(test_inputs["large"]["Input"])
 large_test_input.analyse_movements()
 large_test_input.print_grid()
 large_test_input.sum_gps_coordinates()
 
+print("\nPuzzle input")
 puzzle_input = WarehouseWoes(puzzle_input_1)
 puzzle_input.analyse_movements()
-puzzle_input.print_grid()
 puzzle_input.sum_gps_coordinates()
