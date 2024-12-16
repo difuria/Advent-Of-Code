@@ -1,10 +1,14 @@
 from Inputs.puzzle_inputs import puzzle_input_1
-from Inputs.test_inputs import test_input_1
+from Inputs.test_inputs import test_input_1, test_input_2
+
+import sys
 
 class ReindeerMaze:
     def __init__(self, text: str) -> None:
         self.grid = self._get_grid(text)
-        self.start = self.find_start()
+        self.start, self.end = self.find_start()
+
+        self.completed_paths = []
 
     def _get_grid(self, text: str) -> list[list[str]]:
         grid = []
@@ -15,23 +19,18 @@ class ReindeerMaze:
         return grid
     
     def find_start(self) -> tuple[int]:
+        start = None
+        end = None
         for y, line in enumerate(self.grid):
             if "S" in line:
-                # x, y, initial facing direction
-                return (line.index("S"), y, 0)
+                start = (line.index("S"), y)
+            if "E" in line:
+                end = (line.index("E"), y)
+            
+            if start and end:
+                return start, end
     
     def find_paths(self) -> None:
-        x, y, d = self.start
-        seen = set()
-        seen.add((x, y))
-        # X, Y coordinates, facing direction
-        paths = [[{
-            "x": x,
-            "y": y,
-            "d": d, 
-            "s": seen
-        }]]
-
         movements = (
             (1, 0, "E"),
             (0, 1, "S"),
@@ -39,49 +38,66 @@ class ReindeerMaze:
             (0, -1, "N")
         )
 
-        completed_paths = []
-        while paths:
-            current_path = paths.pop(0)
-            c = current_path[-1]
-            print(c)
-            input()
-            for i, movement in enumerate(movements):
-                new_seen = c["s"].copy()
-                new_x = c["x"] + movement[0]
-                new_y = c["y"] + movement[1]
-                new_pos = (new_x, new_y)
+        print("Starting at:", self.start, "Ending at:", self.end)
+        queue = []
+        position = {
+            "position": self.start,
+            "direction": 0,
+            "score": 0
+        }
+        queue.append(position)
 
-                if new_pos in new_seen:
-                    # Don't return to a position we've already been in
-                    print("Backtracking")
-                    continue
-                elif self.grid[new_y][new_x] == "#":
-                    print("Blocked")
-                    continue
-                elif self.grid[new_y][new_x] == ".":
-                    new_seen.add(new_pos)
-                    current_path.append({
-                        "x": new_x, 
-                        "y": new_y,
-                        "d": i,
-                        "s": new_seen
-                    })
-                    paths.append(current_path)
-                elif self.grid[new_y][new_x] == "E":
-                    # Found the end of the maze
-                    print("Found the end!!!!")
-                    completed_paths.append(current_path)
-                else:
-                    raise ValueError(f"Invalid character of {self.grid[new_y][new_x]} found at {new_x, new_y}")
+        x, y = self.start
+        self.grid[y][x] = position
+
+        min_score = sys.maxsize
+        while queue:
+            # Find the path using Dijkstra's algorithm. Keep track of the paths on the grid itself
+            item = queue.pop(0)
             
-        print("Completed paths")
-        for completed_path in completed_paths:
-            print(completed_path)
-        
-        print(f"There are {len(completed_paths)} possible paths")
-    
+            for i, movement in enumerate(movements):
+                new_x = item["position"][0] + movement[0]
+                new_y = item["position"][1] + movement[1]
+                new_pos = (new_x, new_y)
+                turn_score = abs(i - item["direction"])
+                if turn_score == 3:
+                    turn_score = 1
+                
+                new_score = item["score"] + 1 + (1000 * turn_score)
 
-print("Test Input 1")
+                position = {
+                    "position": (new_pos),
+                    "direction": i,
+                    "score": new_score
+                }
+
+                if self.grid[new_y][new_x] in ["#"]:
+                    # Deadend 
+                    continue
+                elif self.grid[new_y][new_x] in [".", "E"]:
+                    self.grid[new_y][new_x] = position
+                    queue.append(position)  
+                elif self.grid[new_y][new_x]["score"] < new_score:
+                    # Current grid score is lower than what we've got so we can ignore
+                    continue
+                else:
+                    self.grid[new_y][new_x] = position
+                    queue.append(position)
+                
+                if new_pos == self.end:
+                    min_score = min(min_score, position["score"])
+
+        print(f"Minimum score to the end is {min_score}.")
+
+
+print("Task 1")
+print("Test Inputs")
 ti1 = ReindeerMaze(test_input_1)
-print(ti1.grid)
 ti1.find_paths()
+
+ti2 = ReindeerMaze(test_input_2)
+ti2.find_paths()
+
+print("Puzzle Input")
+p1 = ReindeerMaze(puzzle_input_1)
+p1.find_paths()
