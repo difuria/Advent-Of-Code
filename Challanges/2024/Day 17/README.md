@@ -36,9 +36,9 @@ The **`bxc`** instruction (opcode **`4`**) calculates the **`bitwise XOR`** of r
 
 The **`out`** instruction (opcode **`5`**) calculates the value of its **combo** operand modulo 8, then **outputs** that value. (If a program outputs multiple values, they are separated by commas.)
 
-The **`bdv`** instruction (opcode **`6`**) works exactly like the adv instruction except that the result is stored in the B register. (The numerator is still read from the A register.)
+The **`bdv`** instruction (opcode **`6`**) works exactly like the `adv` instruction except that the result is stored in the **`B`** **register**. (The numerator is still read from the `A` register.)
 
-The cdv instruction (opcode 7) works exactly like the adv instruction except that the result is stored in the **`C`** **register**. (The numerator is still read from the `A` register.)
+The **`cdv`** instruction (opcode **`7`**) works exactly like the `adv` instruction except that the result is stored in the **`C`** **register**. (The numerator is still read from the `A` register.)
 
 Here are some examples of instruction operation:
 
