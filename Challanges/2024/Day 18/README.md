@@ -96,3 +96,6 @@ So, in this example, the coordinates of the first byte that prevents the exit fr
 
 Simulate more of the bytes that are about to corrupt your memory space. **What are the coordinates of the first byte that will prevent the exit from being reachable from your starting position?** (Provide the answer as two integers separated by a comma with no other characters.)
 
+Your puzzle answer was `36,17`.
+
+Both parts of this puzzle are complete! They provide two gold stars: **

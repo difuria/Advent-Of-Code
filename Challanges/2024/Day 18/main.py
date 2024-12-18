@@ -86,15 +86,30 @@ class RAMRun:
                     shortest_path = min(shortest_path, ns)
                 else:
                     queue.append(np)
-        
-        print(f"Shortest path found was {shortest_path}.")
-                
 
-    
+        return shortest_path
+              
+
+print("Task 1")
+print("Tast Input")
 trr = RAMRun(test_input_1, (7, 7))
 trr.place_ram(12)
-trr.find_shorted_path()
+shortest_path = trr.find_shorted_path()
+print(f"Shortest path found was {shortest_path}.")
 
-prr = RAMRun(puzzle_input_1, (71, 71))
-prr.place_ram(1024)
-prr.find_shorted_path()
+print("\nPuzzle Input")
+print("Task 1")
+trr = RAMRun(test_input_1, (71, 71))
+trr.place_ram(1024)
+shortest_path = trr.find_shorted_path()
+print(f"Shortest path found was {shortest_path}.")
+
+print("\nTask 2")
+for i in range(1024, 3451):
+    prr = RAMRun(puzzle_input_1, (71, 71))
+    prr.place_ram(i)
+    shortest_path = prr.find_shorted_path()
+
+    if shortest_path == sys.maxsize:
+        print(f"Fist impossible block is {prr.coordinates[i-1]}")
+        break
