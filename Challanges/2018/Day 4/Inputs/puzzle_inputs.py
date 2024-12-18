@@ -1,4 +1,4 @@
-[1518-07-18 23:57] Guard #157 begins shift
+puzzle_input_1 = """[1518-07-18 23:57] Guard #157 begins shift
 [1518-04-18 00:44] wakes up
 [1518-10-26 00:20] falls asleep
 [1518-10-12 00:32] falls asleep
@@ -1156,4 +1156,4 @@
 [1518-06-04 00:13] falls asleep
 [1518-05-01 00:53] falls asleep
 [1518-05-31 00:42] falls asleep
-[1518-08-30 00:21] wakes up
+[1518-08-30 00:21] wakes up"""
