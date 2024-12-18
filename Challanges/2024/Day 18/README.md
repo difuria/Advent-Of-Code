@@ -82,7 +82,7 @@ In the above example, after the byte at `1,1` falls, there is still a path to th
     .##O###
     #.#OOOO
 
-However, after adding the very next byte `(at 6,1)`, there is no longer a path to the exit:
+However, after adding the very next byte (at `6,1`), there is no longer a path to the exit:
 
     ...#...
     .##..##
