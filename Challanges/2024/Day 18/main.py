@@ -99,7 +99,7 @@ print(f"Shortest path found was {shortest_path}.")
 
 print("\nPuzzle Input")
 print("Task 1")
-trr = RAMRun(test_input_1, (71, 71))
+trr = RAMRun(puzzle_input_1, (71, 71))
 trr.place_ram(1024)
 shortest_path = trr.find_shorted_path()
 print(f"Shortest path found was {shortest_path}.")
