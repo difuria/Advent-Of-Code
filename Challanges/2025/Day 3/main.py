@@ -17,15 +17,14 @@ def get_joltage(banks: str, length: int = 2) -> int:
     for bank in banks.strip().splitlines():
         bank = bank.strip()
 
-        max, pos = get_max(bank, 0, len(bank)-length+1)
-        jolt: str = str(max)
-        for remaining_length in range(length-2, -1, -1):
+        jolt: str = ""
+        pos: int = -1
+        for remaining_length in range(length-1, -1, -1):
             max, pos = get_max(bank, pos+1, len(bank)-remaining_length)
             jolt += str(max)
         
         joltage += int(jolt)
 
-    
     return joltage
 
 print("Task 1")
