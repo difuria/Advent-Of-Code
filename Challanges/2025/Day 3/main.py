@@ -1,25 +1,29 @@
 from Inputs.test import t1
 from Inputs.puzzle import p1
 
-def get_max(bank: str) -> tuple[int]:
+def get_max(bank: str, start: int, end: int) -> tuple[int]:
     max: int = -1
     pos: int = -1
-    for i, cur in enumerate(bank):
-        if int(cur) > max:
-            max = int(cur)
+    for i in range(start, end):
+        cur = int(bank[i])
+        if cur > max:
+            max = cur
             pos = i
-    
+
     return max, pos
 
-def get_joltage(banks: str) -> int:
+def get_joltage(banks: str, length: int = 2) -> int:
     joltage:int = 0
     for bank in banks.strip().splitlines():
         bank = bank.strip()
 
-        max, fpos = get_max(bank[:-1])
-        sec, spos = get_max(bank[fpos+1:])
+        max, pos = get_max(bank, 0, len(bank)-length+1)
+        jolt: str = str(max)
+        for remaining_length in range(length-2, -1, -1):
+            max, pos = get_max(bank, pos+1, len(bank)-remaining_length)
+            jolt += str(max)
         
-        joltage += int(str(max) + str(sec))
+        joltage += int(jolt)
 
     
     return joltage
@@ -27,3 +31,7 @@ def get_joltage(banks: str) -> int:
 print("Task 1")
 print(f"Test joltage is {get_joltage(t1)}")
 print(f"Puzzle joltage is {get_joltage(p1)}")
+
+print("\nTask 2")
+print(f"Test joltage is {get_joltage(t1, 12)}")
+print(f"Puzzle joltage is {get_joltage(p1, 12)}")
