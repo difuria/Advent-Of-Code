@@ -5,7 +5,6 @@ from Inputs.puzzle import p1
 def find_paper(movement: tuple[int], row:int, col:int, locations: list[str]) -> int:
     row += movement[0]
     col += movement[1]
-
     
     if row < 0 or row >= len(locations): 
         return 0
@@ -18,15 +17,11 @@ def find_paper(movement: tuple[int], row:int, col:int, locations: list[str]) -> 
 
 
 def locate_paper(locations: str, max_adjacet_rolls: int = 3, output: bool = False) -> tuple[int, list[list[str]]]:
-    og: list[list[str]] = []
     map: list[list[str]] = []
     for row in locations.strip().splitlines():
         map.append([])
-        og.append([])
         for col in row:
-                col = "." if col == "x" else col
-                map[-1].append(col)
-                og[-1].append(col)
+                map[-1].append("." if col == "x" else col)
 
     movements: tuple[tuple[int]] = (
         (1, 0),
@@ -40,18 +35,16 @@ def locate_paper(locations: str, max_adjacet_rolls: int = 3, output: bool = Fals
     )
 
     count: int = 0
-    exits: int = 0 # temp
     for y in range(len(map)):
         for x in range(len(map[y])):
-            paper: str = map[y][x]
-
-            if paper != "@":
-                exits += 1
+            if map[y][x] != "@":
                 continue
 
             adjacent_paper_count: int = 0
             for movement in movements:
-                adjacent_paper_count += find_paper(movement, y, x, og)
+                adjacent_paper_count += find_paper(movement, y, x, map)
+                if adjacent_paper_count > max_adjacet_rolls:
+                    break  # No point looking anymore
 
             if adjacent_paper_count <= max_adjacet_rolls:
                 map[y][x] = "x"
