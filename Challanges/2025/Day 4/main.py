@@ -5,7 +5,7 @@ from Inputs.puzzle import p1
 def find_paper(movement: tuple[int], row:int, col:int, locations: list[str]) -> int:
     row += movement[0]
     col += movement[1]
-    
+
     if row < 0 or row >= len(locations): 
         return 0
     elif col < 0 or col >= len(locations[row]):
@@ -20,8 +20,8 @@ def locate_paper(locations: str, max_adjacet_rolls: int = 3, output: bool = Fals
     map: list[list[str]] = []
     for row in locations.strip().splitlines():
         map.append([])
-        for col in row:
-                map[-1].append("." if col == "x" else col)
+        for col in row.strip():
+            map[-1].append("." if col == "x" else col)
 
     movements: tuple[tuple[int]] = (
         (1, 0),
@@ -70,7 +70,7 @@ def determine_total_to_remove(map: str, output: bool = False) -> int:
 
         moved, current_map = locate_paper(current_map, output=output)
         total += moved
-    
+
     return total
 
 
